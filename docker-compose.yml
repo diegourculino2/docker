@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  mariadb:
+    container_name: as02-docker-data
+    image: mariadb:10
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - as02
+    environment:
+      MYSQL_ROOT_PASSWORD: root!
+      MYSQL_DATABASE: as02
+      MYSQL_USER: teste-user
+      MYSQL_PASSWORD: root!
+
+  nginx:
+    container_name: as02-docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mariadb
+    links:
+      - mariadb
+    ports:
+      - 3306
+    networks:
+      - as02
+
+volumes:
+  db_data: {}
+
+networks:
+  as02:
+    driver: bridge
