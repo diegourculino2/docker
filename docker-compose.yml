@@ -24,7 +24,7 @@ services:
     links:
       - mariadb
     ports:
-      - 3306
+      - 80:80
     networks:
       - as02
 
